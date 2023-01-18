@@ -2,13 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../widget/custom_button.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: Column(
           children: [
@@ -61,52 +63,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  final String label;
-  final Function() onPressed;
-  const CustomButton({
-    Key? key,
-    required this.label,
-    required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 4,
-      color: Colors.grey[100],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-        side: const BorderSide(
-          color: Color.fromARGB(255, 201, 195, 195),
-          width: 0.0001,
-        ),
-      ),
-      child: InkWell(
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                label,
-                style: Theme.of(context).textTheme.button?.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                    ),
-              ),
-            ],
-          ),
         ),
       ),
     );
