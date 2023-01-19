@@ -16,8 +16,8 @@ class RegisterScreen extends StatelessWidget {
           child: Center(
             child: Text(
               "PRODEL",
-              style: GoogleFonts.anton(
-                textStyle: Theme.of(context).textTheme.headlineLarge,
+              style: GoogleFonts.bungeeHairline(
+                textStyle: Theme.of(context).textTheme.displayMedium,
               ),
             ),
           ),

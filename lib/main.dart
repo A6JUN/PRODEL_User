@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:prodel_user/ui/screens/login_screen.dart';
-import 'package:prodel_user/ui/screens/register_screen.dart';
+
+import 'package:prodel_user/ui/screens/register_screen2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RegisterScreen(),
+      home: RegisterScreeen2(),
     );
   }
 }
