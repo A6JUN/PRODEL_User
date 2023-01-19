@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prodel_user/ui/screens/Home_Screen.dart';
 import 'package:prodel_user/ui/screens/OTP_screen.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OtpScreen(),
+      home: HomeScreen(),
     );
   }
 }
