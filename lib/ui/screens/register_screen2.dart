@@ -13,16 +13,6 @@ class RegisterScreeen2 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: Center(
-                child: Text(
-                  "PRODEL",
-                  style: GoogleFonts.bungeeHairline(
-                    textStyle: Theme.of(context).textTheme.displayMedium,
-                  ),
-                ),
-              ),
-            ),
             Text("Create your account"),
             SizedBox(
               height: 15,

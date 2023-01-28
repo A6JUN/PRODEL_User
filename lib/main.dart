@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prodel_user/ui/screens/Home_Screen.dart';
 import 'package:prodel_user/ui/screens/OTP_screen.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/profile_section.dart';
 
 void main() {
   runApp(const MyApp());

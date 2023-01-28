@@ -21,7 +21,11 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(
+      initialIndex: 1,
+      length: 4,
+      vsync: this,
+    );
     tabController.addListener(() {
       setState(() {});
     });
@@ -31,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 254, 254),
       appBar: AppBar(
         centerTitle: true,
         elevation: 1,

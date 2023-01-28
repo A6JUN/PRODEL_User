@@ -29,7 +29,7 @@ class CustomBottomNavBar extends StatelessWidget {
               icon: Icon(
                 Icons.home_outlined,
                 size: 30,
-                color: index == 0 ? Colors.orange : Colors.black,
+                color: index == 0 ? Colors.black : Colors.grey,
               ),
             ),
             IconButton(
@@ -39,7 +39,7 @@ class CustomBottomNavBar extends StatelessWidget {
               icon: Icon(
                 Icons.person_outline,
                 size: 30,
-                color: index == 1 ? Colors.orange : Colors.black,
+                color: index == 1 ? Colors.black : Colors.grey,
               ),
             ),
             IconButton(
@@ -49,7 +49,7 @@ class CustomBottomNavBar extends StatelessWidget {
               icon: Icon(
                 Icons.shopping_cart_checkout_outlined,
                 size: 30,
-                color: index == 2 ? Colors.orange : Colors.black,
+                color: index == 2 ? Colors.black : Colors.grey,
               ),
             ),
             IconButton(
@@ -59,7 +59,7 @@ class CustomBottomNavBar extends StatelessWidget {
               icon: Icon(
                 Icons.settings_outlined,
                 size: 30,
-                color: index == 3 ? Colors.orange : Colors.black,
+                color: index == 3 ? Colors.black : Colors.grey,
               ),
             ),
           ],
