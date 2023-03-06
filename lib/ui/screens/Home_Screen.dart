@@ -38,15 +38,16 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: Color.fromARGB(255, 255, 254, 254),
       appBar: AppBar(
         centerTitle: true,
-        elevation: 1,
+        elevation: 30,
         backgroundColor: Colors.white,
         shadowColor: Colors.black26,
         title: Text(
           "PRODEL",
           style: GoogleFonts.bungeeHairline(
-            textStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: Colors.black,
-                ),
+            textStyle: Theme.of(context)
+                .textTheme
+                .displaySmall
+                ?.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
           ),
         ),
       ),

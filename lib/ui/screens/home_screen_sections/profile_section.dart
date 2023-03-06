@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widget/custom_button.dart';
+
 class ProfileSection extends StatelessWidget {
   const ProfileSection({super.key});
 
@@ -8,7 +10,7 @@ class ProfileSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 253, 253),
+      backgroundColor: Color.fromARGB(255, 231, 250, 219),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.only(
@@ -18,17 +20,16 @@ class ProfileSection extends StatelessWidget {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
+                border: Border.all(color: Color.fromARGB(255, 252, 253, 252)),
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: Color.fromARGB(255, 255, 255, 255),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("assets/images/profile.jpg"),
+                  image: AssetImage("assets/images/bb.jpg"),
                 ),
                 boxShadow: [
                   BoxShadow(
-                      blurRadius: 10,
-                      color: Color.fromARGB(255, 255, 254, 254)),
+                      blurRadius: 15, color: Color.fromARGB(153, 44, 71, 0)),
                 ]),
           ),
         ),
@@ -40,24 +41,67 @@ class ProfileSection extends StatelessWidget {
                 "Millie Bobby ",
                 style: GoogleFonts.jost(
                     textStyle: Theme.of(context).textTheme.bodyMedium,
-                    fontSize: 17,
-                    color: Color.fromARGB(255, 92, 92, 92)),
+                    fontSize: 18,
+                    color: Color.fromARGB(255, 77, 76, 76)),
               ),
             )),
-        Material(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "Name:",
-                    style: GoogleFonts.comfortaa(),
-                  ),
-                ],
-              )
-            ],
+        SizedBox(
+          height: 270,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Material(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Color.fromARGB(255, 214, 248, 151),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Name :", style: GoogleFonts.nunitoSans(fontSize: 17)),
+                    Text("Phone Number :",
+                        style: GoogleFonts.nunitoSans(fontSize: 17)),
+                    Text("E-mail :",
+                        style: GoogleFonts.nunitoSans(fontSize: 17)),
+                    Text("Address :",
+                        style: GoogleFonts.nunitoSans(fontSize: 17)),
+                    Text("Pin Code :",
+                        style: GoogleFonts.nunitoSans(fontSize: 17))
+                  ],
+                ),
+              ),
+            ),
           ),
-        )
+        ),
+        SizedBox(
+          height: 90,
+          width: 300,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Expanded(
+              child: CustomButton(
+                label: 'Payment Method',
+                color: Color.fromARGB(255, 248, 248, 247),
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 90,
+          width: 300,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Expanded(
+              child: CustomButton(
+                label: 'My Orders',
+                color: Color.fromARGB(255, 248, 248, 247),
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ),
       ]),
     ));
   }
