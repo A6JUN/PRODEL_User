@@ -173,7 +173,7 @@ class ShopSection extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 itemBuilder: (context, index) => Container(
-                  color: Color.fromARGB(255, 134, 148, 123),
+                  color: Color.fromARGB(255, 90, 102, 90),
                   height: 80,
                   width: 90,
                   child: Column(
@@ -181,7 +181,7 @@ class ShopSection extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.restaurant,
-                        color: Color.fromARGB(255, 254, 255, 255),
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
                       Text(
                         "Resturant",

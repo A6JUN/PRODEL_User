@@ -55,30 +55,33 @@ class SettingsSection extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Column(
-              children: [
-                SettingsCard(
-                  iconData: Icons.notification_add_outlined,
-                  label: "Notification",
-                ),
-                SettingsCard(
-                  iconData: Icons.question_mark,
-                  label: "Help and Support",
-                ),
-                SettingsCard(
-                  iconData: Icons.error_outline_outlined,
-                  label: "About",
-                ),
-                SettingsCard(
-                  iconData: Icons.person,
-                  label: "Account",
-                ),
-                SettingsCard(
-                  iconData: Icons.logout,
-                  label: "Log Out",
-                ),
-              ],
+            padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
+            child: Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SettingsCard(
+                    iconData: Icons.notification_add_outlined,
+                    label: "Notification",
+                  ),
+                  SettingsCard(
+                    iconData: Icons.question_mark,
+                    label: "Help and Support",
+                  ),
+                  SettingsCard(
+                    iconData: Icons.error_outline_outlined,
+                    label: "About",
+                  ),
+                  SettingsCard(
+                    iconData: Icons.person,
+                    label: "Account",
+                  ),
+                  SettingsCard(
+                    iconData: Icons.logout,
+                    label: "Log Out",
+                  ),
+                ],
+              ),
             ),
           )
         ],
@@ -101,7 +104,7 @@ class SettingsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(iconData),
           Text(

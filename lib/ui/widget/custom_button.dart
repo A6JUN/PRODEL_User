@@ -4,12 +4,14 @@ class CustomButton extends StatelessWidget {
   final String label;
   final Function() onPressed;
   final Color color, labelColor;
+  final double borderRadiusValue;
   const CustomButton({
     Key? key,
     required this.label,
     required this.onPressed,
     this.labelColor = Colors.black,
     this.color = const Color(0XFFD9D9D9),
+    this.borderRadiusValue = 40,
   }) : super(key: key);
 
   @override
@@ -18,7 +20,7 @@ class CustomButton extends StatelessWidget {
       elevation: 4,
       color: color,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(borderRadiusValue),
         side: const BorderSide(
           color: Color.fromARGB(255, 201, 195, 195),
           width: 0.0001,

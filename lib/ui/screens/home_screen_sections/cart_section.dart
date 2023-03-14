@@ -53,7 +53,7 @@ class CartSection extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "₹ 27000",
+                        "₹ 440",
                         style: GoogleFonts.aBeeZee(
                             textStyle:
                                 Theme.of(context).textTheme.headline6!.copyWith(
@@ -101,7 +101,7 @@ class CartScreenContainer extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   icon: Icon(
-                    Icons.close,
+                    Icons.close_rounded,
                     size: 30,
                   ),
                   onPressed: () {},
@@ -118,7 +118,7 @@ class CartScreenContainer extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Image.asset(
-                              "assets/images/mm.png",
+                              "assets/images/nut.png",
                               height: 180,
                               width: 180,
                             ),
@@ -145,13 +145,13 @@ class CartScreenContainer extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Realme TV",
+                              Text("Nutella",
                                   style: GoogleFonts.nunitoSans(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600)),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700)),
                               SizedBox(
                                 child: Text(
-                                  "realme 108cm (43 inch)Ultra HD (4k) LED Smart Android TV",
+                                  "nutella Chocolate Hazelnut Spread Imported 350 g",
                                 ),
                               ),
                               Icon(
@@ -164,7 +164,7 @@ class CartScreenContainer extends StatelessWidget {
                                   child: Text("15% off",
                                       style: GoogleFonts.aBeeZee(
                                           fontSize: 17, color: Colors.green))),
-                              Text("Rs.27,999",
+                              Text("Rs.440",
                                   style: GoogleFonts.aBeeZee(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600)),
@@ -189,9 +189,9 @@ class CartScreenContainer extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, bottom: 7),
-                    child: Text("FROM : Nikshan Electronics",
+                    child: Text("FROM : My Bazzar",
                         style: GoogleFonts.aBeeZee(
-                            fontSize: 17, fontWeight: FontWeight.w500)),
+                            fontSize: 17, fontWeight: FontWeight.w600)),
                   ),
                 ],
               ),

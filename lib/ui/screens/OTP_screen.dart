@@ -29,7 +29,7 @@ class OtpScreen extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                       borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(255, 165, 41, 41),
                         width: 2.0,
                       ),
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prodel_user/ui/screens/myorder_screen.dart';
+import 'package:prodel_user/ui/screens/paymentmethod_screen.dart';
 
 import '../../widget/custom_button.dart';
 
@@ -10,7 +12,7 @@ class ProfileSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Color.fromARGB(255, 231, 250, 219),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.only(
@@ -29,7 +31,8 @@ class ProfileSection extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                      blurRadius: 15, color: Color.fromARGB(153, 44, 71, 0)),
+                      blurRadius: 15,
+                      color: Color.fromARGB(153, 248, 248, 247)),
                 ]),
           ),
         ),
@@ -42,7 +45,7 @@ class ProfileSection extends StatelessWidget {
                 style: GoogleFonts.jost(
                     textStyle: Theme.of(context).textTheme.bodyMedium,
                     fontSize: 18,
-                    color: Color.fromARGB(255, 77, 76, 76)),
+                    color: Color.fromARGB(255, 14, 13, 13)),
               ),
             )),
         SizedBox(
@@ -51,8 +54,11 @@ class ProfileSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Material(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Color.fromARGB(255, 214, 248, 151),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: const BorderSide(
+                      color: Color.fromARGB(255, 17, 17, 17), width: 1)),
+              color: Color.fromARGB(255, 237, 238, 237),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Column(
@@ -82,8 +88,13 @@ class ProfileSection extends StatelessWidget {
             child: Expanded(
               child: CustomButton(
                 label: 'Payment Method',
-                color: Color.fromARGB(255, 248, 248, 247),
-                onPressed: () {},
+                color: Color.fromARGB(255, 203, 243, 128),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentMethod()));
+                },
               ),
             ),
           ),
@@ -96,8 +107,13 @@ class ProfileSection extends StatelessWidget {
             child: Expanded(
               child: CustomButton(
                 label: 'My Orders',
-                color: Color.fromARGB(255, 248, 248, 247),
-                onPressed: () {},
+                color: Color.fromARGB(255, 203, 243, 128),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyOrderScreen()));
+                },
               ),
             ),
           ),
