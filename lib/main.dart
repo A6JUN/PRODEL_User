@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:prodel_user/ui/screens/Home_Screen.dart';
-import 'package:prodel_user/ui/screens/OTP_screen.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/profile_section.dart';
-import 'package:prodel_user/ui/screens/myorder_screen.dart';
-import 'package:prodel_user/ui/screens/paymentmethod_screen.dart';
-import 'package:prodel_user/ui/screens/notification_notification.dart';
-import 'package:prodel_user/ui/screens/register_screen.dart';
-import 'package:prodel_user/ui/screens/register_screen2.dart';
-import 'package:prodel_user/ui/screens/shop1_section.dart';
+import 'package:prodel_user/ui/screens/home_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  await Supabase.initialize(
+    url: 'https://pprklkrcyqnhjrukxuhq.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwcmtsa3JjeXFuaGpydWt4dWhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg3OTI0MDUsImV4cCI6MTk5NDM2ODQwNX0.Atb5wiUHyOmXWaLSbhPcpfMRxY1AKI4mhuClGy2rYao',
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PRODEL App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Shop1_Section(),
+      home: const HomeScreen(),
     );
   }
 }

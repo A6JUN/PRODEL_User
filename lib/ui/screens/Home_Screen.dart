@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/cart_section.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/profile_section.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/settings_section.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/cart_screen.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/orders_screen.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/products_screen.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/settings_screen.dart';
 
 import '../widget/custom_bottom_nav_bar.dart';
-import 'home_screen_sections/shop_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     tabController = TabController(
-      initialIndex: 1,
       length: 4,
       vsync: this,
     );
@@ -35,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 254, 254),
+      backgroundColor: const Color.fromARGB(255, 255, 254, 254),
       appBar: AppBar(
         centerTitle: true,
         elevation: 30,
@@ -44,20 +43,20 @@ class _HomeScreenState extends State<HomeScreen>
         title: Text(
           "PRODEL",
           style: GoogleFonts.bungeeHairline(
-            textStyle: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+            textStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ),
       ),
       body: TabBarView(
         controller: tabController,
         children: const [
-          ShopSection(),
-          ProfileSection(),
-          CartSection(),
-          SettingsSection(),
+          ProductsScreen(),
+          OrdersScreen(),
+          CartScreen(),
+          SettingsScreen(),
         ],
       ),
       bottomNavigationBar: CustomBottomNavBar(

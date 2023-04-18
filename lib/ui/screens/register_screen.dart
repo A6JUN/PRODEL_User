@@ -100,14 +100,14 @@ class RegisterScreen extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 100, right: 100),
-          child: CustomButton(
-            label: "LOGIN",
-            onPressed: () {},
-            color: Color.fromARGB(255, 211, 210, 210),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 100, right: 100),
+        //   child: CustomButton(
+        //     label: "LOGIN",
+        //     onPressed: () {},
+        //     color: Color.fromARGB(255, 211, 210, 210),
+        //   ),
+        // ),
         SizedBox(
           height: 30,
         ),

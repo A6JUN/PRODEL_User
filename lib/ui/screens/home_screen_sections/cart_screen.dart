@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/shop_section.dart';
 
-import '../../widget/custom_button.dart';
-
-class CartSection extends StatelessWidget {
-  const CartSection({super.key});
+class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +59,13 @@ class CartSection extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: CustomButton(
-                    label: 'Place Order',
-                    color: Color.fromARGB(255, 255, 208, 0),
-                    onPressed: () {},
-                  ),
-                ),
+                // Expanded(
+                //   child: CustomButton(
+                //     label: 'Place Order',
+                //     color: Color.fromARGB(255, 255, 208, 0),
+                //     onPressed: () {},
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -171,16 +166,16 @@ class CartScreenContainer extends StatelessWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 18, right: 18, top: 11),
-                                child: CustomButton(
-                                  label: "Buy Now",
-                                  labelColor: Color.fromARGB(255, 36, 146, 2),
-                                  onPressed: () {},
-                                  color: Color.fromARGB(255, 249, 250, 247),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       left: 18, right: 18, top: 11),
+                              //   child: CustomButton(
+                              //     label: "Buy Now",
+                              //     labelColor: Color.fromARGB(255, 36, 146, 2),
+                              //     onPressed: () {},
+                              //     color: Color.fromARGB(255, 249, 250, 247),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:prodel_user/values/colors.dart';
 
 class CustomButton extends StatelessWidget {
+  final Function() onTap;
+  final bool isLoading;
   final String label;
-  final Function() onPressed;
-  final Color color, labelColor;
-  final double borderRadiusValue;
   const CustomButton({
-    Key? key,
+    super.key,
+    required this.onTap,
     required this.label,
-    required this.onPressed,
-    this.labelColor = Colors.black,
-    this.color = const Color(0XFFD9D9D9),
-    this.borderRadiusValue = 40,
-  }) : super(key: key);
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 4,
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadiusValue),
-        side: const BorderSide(
-          color: Color.fromARGB(255, 201, 195, 195),
-          width: 0.0001,
-        ),
-      ),
+      color: primaryColor,
+      borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        onTap: onPressed,
+        borderRadius: BorderRadius.circular(20),
+        hoverColor: primaryColor.withOpacity(0.1),
+        splashColor: primaryColor.withOpacity(0.1),
+        onTap: isLoading ? null : onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
+            horizontal: 15,
+            vertical: 15,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                label,
-                style: Theme.of(context).textTheme.button?.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                      color: labelColor,
-                    ),
-              ),
-            ],
+          child: Center(
+            child: isLoading
+                ? CircularProgressIndicator(
+                    backgroundColor: primaryColor.withOpacity(0.1),
+                    color: Colors.white,
+                  )
+                : Text(
+                    label,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
           ),
         ),
       ),

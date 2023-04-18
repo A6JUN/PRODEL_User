@@ -37,7 +37,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 onChange(1);
               },
               icon: Icon(
-                Icons.person_outline,
+                Icons.shopping_bag_outlined,
                 size: 30,
                 color: index == 1 ? Colors.black : Colors.grey,
               ),

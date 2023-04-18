@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:prodel_user/ui/widget/branding.dart';
 
 import '../widget/custom_button.dart';
 
@@ -14,12 +15,8 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: Center(
-                  child: Image.asset(
-                "assets/images/LOGO.jpg",
-                fit: BoxFit.cover,
-              )),
+            const Expanded(
+              child: Branding(),
             ),
             Expanded(
               child: Padding(
@@ -39,24 +36,6 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(
                       height: 5,
-                    ),
-                    CustomButton(
-                      label: "LOGIN",
-                      onPressed: () {},
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text("Create an account"),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    CustomButton(
-                      label: "REGISTER",
-                      onPressed: () {},
                     ),
                   ],
                 ),
