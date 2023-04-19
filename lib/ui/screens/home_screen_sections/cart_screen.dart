@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prodel_user/ui/screens/product_details_screen.dart';
+import 'package:prodel_user/ui/widget/counter.dart';
+
+import '../../widget/custom_button.dart';
+import '../../widget/custom_card.dart';
+import '../products_screen.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -11,12 +17,18 @@ class CartScreen extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.separated(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              bottom: 50,
+              top: 20,
+            ),
             shrinkWrap: true,
             itemCount: 5,
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
             itemBuilder: (BuildContext context, int index) {
-              return CartScreenContainer();
+              return ShopItem();
             },
           ),
         ),
@@ -24,10 +36,10 @@ class CartScreen extends StatelessWidget {
           color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(1),
-            side: BorderSide(color: Colors.black38, width: 0.5),
+            side: const BorderSide(color: Colors.black38, width: 0.5),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
                 Expanded(
@@ -59,13 +71,12 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Expanded(
-                //   child: CustomButton(
-                //     label: 'Place Order',
-                //     color: Color.fromARGB(255, 255, 208, 0),
-                //     onPressed: () {},
-                //   ),
-                // ),
+                Expanded(
+                  child: CustomButton(
+                    label: 'Place Order',
+                    onTap: () {},
+                  ),
+                ),
               ],
             ),
           ),
@@ -75,123 +86,73 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-class CartScreenContainer extends StatelessWidget {
-  const CartScreenContainer({
-    Key? key,
-  }) : super(key: key);
+class ShopItem extends StatelessWidget {
+  const ShopItem({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 5),
+    return CustomCard(
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetailsScreen(),
+          ),
+        );
+      },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          color: Color.fromARGB(255, 234, 224, 247),
-          width: double.infinity,
-          height: 300,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close_rounded,
-                    size: 30,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              Column(
+        borderRadius: BorderRadius.circular(10),
+        child: Row(
+          children: [
+            Image.network(
+              'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80',
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset(
-                              "assets/images/nut.png",
-                              height: 180,
-                              width: 180,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.remove_circle_sharp,
-                                size: 20,
-                              ),
-                              Text("Qty"),
-                              Icon(
-                                Icons.add_circle_sharp,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 28),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Nutella",
-                                  style: GoogleFonts.nunitoSans(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700)),
-                              SizedBox(
-                                child: Text(
-                                  "nutella Chocolate Hazelnut Spread Imported 350 g",
-                                ),
-                              ),
-                              Icon(
-                                Icons
-                                    .star_rate, //star aswome rating in pub.dev run in terminal then import then copy paste
-                                size: 17,
-                                color: Color.fromARGB(255, 255, 154, 3),
-                              ),
-                              SizedBox(
-                                  child: Text("15% off",
-                                      style: GoogleFonts.aBeeZee(
-                                          fontSize: 17, color: Colors.green))),
-                              Text("Rs.440",
-                                  style: GoogleFonts.aBeeZee(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(
-                              //       left: 18, right: 18, top: 11),
-                              //   child: CustomButton(
-                              //     label: "Buy Now",
-                              //     labelColor: Color.fromARGB(255, 36, 146, 2),
-                              //     onPressed: () {},
-                              //     color: Color.fromARGB(255, 249, 250, 247),
-                              //   ),
-                              // ),
-                            ],
-                          ),
+                  Text(
+                    'Category',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, bottom: 7),
-                    child: Text("FROM : My Bazzar",
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 17, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 2.5),
+                  Text(
+                    'Product Name',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  const SizedBox(height: 2.5),
+                  Text(
+                    'Shop Name',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  const SizedBox(height: 2.5),
+                  Counter(
+                    size: 24,
+                    onChange: (count) {},
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            const Icon(
+              Icons.arrow_forward,
+              color: Colors.black26,
+            ),
+            const SizedBox(width: 15),
+          ],
         ),
       ),
     );

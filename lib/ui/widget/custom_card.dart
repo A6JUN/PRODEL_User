@@ -11,7 +11,7 @@ class CustomCard extends StatefulWidget {
     required this.child,
     this.onPressed,
     this.color = Colors.white,
-    this.borderRadius = 20,
+    this.borderRadius = 10,
   });
 
   @override
@@ -38,15 +38,15 @@ class CustomCardState extends State<CustomCard> {
             boxShadow: _isHovering
                 ? []
                 : [
-                    const BoxShadow(
-                      color: Colors.black26,
+                    BoxShadow(
+                      color: Colors.yellow.withOpacity(.2),
                       offset: Offset(1, 1),
                       blurRadius: 3,
                     )
                   ],
             border: Border.all(
               width: 1,
-              color: Colors.grey,
+              color: Colors.yellow[900]!,
             ),
           ),
           child: widget.child,

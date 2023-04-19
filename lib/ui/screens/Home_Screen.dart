@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prodel_user/ui/screens/home_screen_sections/cart_screen.dart';
 import 'package:prodel_user/ui/screens/home_screen_sections/orders_screen.dart';
-import 'package:prodel_user/ui/screens/home_screen_sections/products_screen.dart';
 import 'package:prodel_user/ui/screens/home_screen_sections/settings_screen.dart';
+import 'package:prodel_user/ui/screens/home_screen_sections/shops_screen.dart';
 
 import '../widget/custom_bottom_nav_bar.dart';
 
@@ -37,13 +37,13 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: const Color.fromARGB(255, 255, 254, 254),
       appBar: AppBar(
         centerTitle: true,
-        elevation: 30,
-        backgroundColor: Colors.white,
+        elevation: 5,
+        backgroundColor: Colors.yellow,
         shadowColor: Colors.black26,
         title: Text(
           "PRODEL",
           style: GoogleFonts.bungeeHairline(
-            textStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
+            textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: TabBarView(
         controller: tabController,
         children: const [
-          ProductsScreen(),
+          ShopsScreen(),
           OrdersScreen(),
           CartScreen(),
           SettingsScreen(),
