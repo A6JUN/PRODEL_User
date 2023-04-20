@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:prodel_user/ui/screens/products_screen.dart';
 import 'package:prodel_user/ui/widget/custom_card.dart';
 import 'package:prodel_user/ui/widget/custom_search.dart';
@@ -25,6 +26,21 @@ class _ShopsScreenState extends State<ShopsScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              "Explore shops",
+              style: GoogleFonts.jost(
+                textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomSearch(
               onSearch: (search) {},
             ),
@@ -39,7 +55,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
               ),
               child: ListView.separated(
                 itemCount: 10,
-                itemBuilder: (context, index) => ShopItem(),
+                itemBuilder: (context, index) => const ShopItem(),
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 10),
               ),
@@ -62,7 +78,7 @@ class ShopItem extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProductsScreen(),
+            builder: (context) => const ProductsScreen(),
           ),
         );
       },

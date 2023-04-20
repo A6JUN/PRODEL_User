@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatefulWidget {
   final Widget child;
   final Color? color;
-  final double borderRadius;
+  final double borderRadius, borderWidth;
   final Function()? onPressed;
 
   const CustomCard({
@@ -11,7 +11,8 @@ class CustomCard extends StatefulWidget {
     required this.child,
     this.onPressed,
     this.color = Colors.white,
-    this.borderRadius = 10,
+    this.borderRadius = 15,
+    this.borderWidth = 1,
   });
 
   @override
@@ -38,15 +39,17 @@ class CustomCardState extends State<CustomCard> {
             boxShadow: _isHovering
                 ? []
                 : [
-                    BoxShadow(
-                      color: Colors.yellow.withOpacity(.2),
+                    const BoxShadow(
+                      color: Colors.black26,
                       offset: Offset(1, 1),
                       blurRadius: 3,
                     )
                   ],
             border: Border.all(
               width: 1,
-              color: Colors.yellow[900]!,
+              color: widget.borderWidth == 0
+                  ? Colors.transparent
+                  : Colors.yellow[900]!,
             ),
           ),
           child: widget.child,

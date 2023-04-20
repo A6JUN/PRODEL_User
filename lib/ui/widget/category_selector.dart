@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prodel_user/blocs/product_category/product_category_bloc.dart';
-import 'package:prodel_user/values/colors.dart';
 
 import 'custom_alert_dialog.dart';
 
@@ -56,9 +55,7 @@ class _CategorySelectorState extends State<CategorySelector> {
               children: [
                 Material(
                   borderRadius: BorderRadius.circular(20),
-                  color: selectedId == 0
-                      ? primaryColor.withOpacity(0.1)
-                      : Colors.grey[200],
+                  color: selectedId == 0 ? Colors.yellow[50] : Colors.grey[200],
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
@@ -75,7 +72,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                         'All Categories',
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: selectedId == 0
-                                ? primaryColor
+                                ? Colors.yellow[900]
                                 : Colors.grey[800]),
                       ),
                     ),
@@ -94,7 +91,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                         borderRadius: BorderRadius.circular(20),
                         color:
                             selectedId == state.productCategories[index]['id']
-                                ? primaryColor.withOpacity(0.1)
+                                ? Colors.yellow.withOpacity(0.1)
                                 : Colors.grey[200],
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
@@ -118,7 +115,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                                       color: selectedId ==
                                               state.productCategories[index]
                                                   ['id']
-                                          ? primaryColor
+                                          ? Colors.yellow[900]
                                           : Colors.grey[800]),
                             ),
                           ),
@@ -133,8 +130,8 @@ class _CategorySelectorState extends State<CategorySelector> {
             return const SizedBox();
           } else {
             return LinearProgressIndicator(
-              color: primaryColor,
-              backgroundColor: primaryColor.withOpacity(0.1),
+              color: Colors.yellow,
+              backgroundColor: Colors.yellow.withOpacity(0.1),
             );
           }
         },

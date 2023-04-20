@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
-import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'product_event.dart';

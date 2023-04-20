@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen>
         elevation: 5,
         backgroundColor: Colors.yellow,
         shadowColor: Colors.black26,
+        automaticallyImplyLeading: false,
         title: Text(
           "PRODEL",
           style: GoogleFonts.bungeeHairline(

@@ -5,7 +5,6 @@ import 'package:prodel_user/ui/widget/counter.dart';
 
 import '../../widget/custom_button.dart';
 import '../../widget/custom_card.dart';
-import '../products_screen.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -28,7 +27,7 @@ class CartScreen extends StatelessWidget {
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
             itemBuilder: (BuildContext context, int index) {
-              return ShopItem();
+              return const ShopItem();
             },
           ),
         ),
@@ -48,25 +47,26 @@ class CartScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Total Price",
-                        style: GoogleFonts.nunitoSans(
+                        style: GoogleFonts.notoSans(
                           textStyle:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.normal,
                                   ),
                         ),
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 3,
                       ),
                       Text(
-                        "₹ 440",
-                        style: GoogleFonts.aBeeZee(
-                            textStyle:
-                                Theme.of(context).textTheme.headline6!.copyWith(
-                                      color: Color.fromARGB(255, 26, 126, 1),
-                                      fontWeight: FontWeight.w500,
-                                    )),
+                        "₹440",
+                        style: GoogleFonts.notoSans(
+                          textStyle:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
                       ),
                     ],
                   ),
@@ -97,7 +97,7 @@ class ShopItem extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(),
+            builder: (context) => const ProductDetailsScreen(),
           ),
         );
       },

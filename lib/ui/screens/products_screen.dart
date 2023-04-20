@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:prodel_user/ui/screens/product_details_screen.dart';
 import 'package:prodel_user/ui/widget/category_selector.dart';
 import 'package:prodel_user/ui/widget/custom_search.dart';

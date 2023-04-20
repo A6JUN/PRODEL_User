@@ -5,17 +5,19 @@ class CustomButton extends StatelessWidget {
   final Function() onTap;
   final bool isLoading;
   final String label;
+  final Color color;
   const CustomButton({
     super.key,
     required this.onTap,
     required this.label,
     this.isLoading = false,
+    this.color = primaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: primaryColor,
+      color: color,
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),

@@ -1,115 +1,150 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:prodel_user/ui/screens/complaints_screen.dart';
+import 'package:prodel_user/ui/screens/login_screen.dart';
+import 'package:prodel_user/ui/screens/suggestions_screen.dart';
+import 'package:prodel_user/ui/widget/change_password_dialog.dart';
+import 'package:prodel_user/ui/widget/custom_card.dart';
+import 'package:prodel_user/ui/widget/custom_progress_indicator.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 80,
-            width: double.infinity,
-            child: Material(
-              color: Color.fromARGB(248, 199, 245, 161),
-              elevation: 5,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: Image.asset(
-                      "assets/images/ll.jpg",
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Millie Bobby",
-                        style: GoogleFonts.nunitoSans(
-                            fontSize: 15, fontWeight: FontWeight.w700),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 15,
+              runSpacing: 15,
+              children: [
+                SettingsCard(
+                  icon: Icons.report_outlined,
+                  label: 'Complaints',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ComplaintsScreen(),
                       ),
-                      Text(
-                        "Milliebby69@gamil.com",
-                        style: GoogleFonts.nunito(fontSize: 10),
+                    );
+                  },
+                ),
+                SettingsCard(
+                  icon: Icons.comment_outlined,
+                  label: 'Suggestions',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SuggestionsScreen(),
+                      ),
+                    );
+                  },
+                ),
+                SettingsCard(
+                  icon: Icons.lock_open_outlined,
+                  label: 'Change Password',
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const ChangePasswordDialog(),
+                    );
+                  },
+                ),
+                isLoading
+                    ? Center(
+                        child: CustomProgressIndicator(
+                          color: Colors.yellow[900]!,
+                        ),
                       )
-                    ],
-                  ),
-                ],
-              ),
+                    : SettingsCard(
+                        icon: Icons.exit_to_app_outlined,
+                        label: 'Logout',
+                        onTap: () async {
+                          isLoading = true;
+                          setState(() {});
+
+                          await Supabase.instance.client.auth.signOut();
+
+                          isLoading = false;
+                          setState(() {});
+
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                            (route) => true,
+                          );
+                        },
+                      ),
+              ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SettingsCard(
-                    iconData: Icons.notification_add_outlined,
-                    label: "Notification",
-                  ),
-                  SettingsCard(
-                    iconData: Icons.question_mark,
-                    label: "Help and Support",
-                  ),
-                  SettingsCard(
-                    iconData: Icons.error_outline_outlined,
-                    label: "About",
-                  ),
-                  SettingsCard(
-                    iconData: Icons.person,
-                    label: "Account",
-                  ),
-                  SettingsCard(
-                    iconData: Icons.logout,
-                    label: "Log Out",
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
 class SettingsCard extends StatelessWidget {
-  final IconData iconData;
+  final Function() onTap;
   final String label;
+  final IconData icon;
   const SettingsCard({
-    Key? key,
-    required this.iconData,
+    super.key,
+    required this.onTap,
     required this.label,
-  }) : super(key: key);
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Icon(iconData),
-          Text(
-            label,
-            style: GoogleFonts.poppins(fontSize: 23),
-          ),
-        ],
+    return CustomCard(
+      onPressed: onTap,
+      borderWidth: 0,
+      color: Colors.yellow[100],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 12,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.yellow[900]!,
+              size: 30,
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -11,6 +11,8 @@ class Branding extends StatelessWidget {
         child: Image.asset(
       "assets/images/LOGO.jpg",
       fit: BoxFit.cover,
+      height: 150,
+      width: 150,
     ));
   }
 }

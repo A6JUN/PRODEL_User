@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:prodel_user/ui/widget/custom_action_button.dart';
 import 'package:prodel_user/ui/widget/custom_button.dart';
-import 'package:prodel_user/values/colors.dart';
 
 import '../widget/counter.dart';
 import '../widget/custom_progress_indicator.dart';
@@ -133,7 +130,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Divider(height: 1),
+          const Divider(height: 1),
           Material(
             color: Colors.white,
             elevation: 5,
