@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: TabBarView(
         controller: tabController,
+        physics: const NeverScrollableScrollPhysics(),
         children: const [
           ShopsScreen(),
           OrdersScreen(),

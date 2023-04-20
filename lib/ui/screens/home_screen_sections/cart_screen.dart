@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prodel_user/ui/screens/product_details_screen.dart';
 import 'package:prodel_user/ui/widget/counter.dart';
 
 import '../../widget/custom_button.dart';
@@ -94,16 +93,18 @@ class ShopItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const ProductDetailsScreen(),
-          ),
-        );
-      },
+      // onPressed: () {
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (context) => const ProductDetailsScreen(),
+      //   ),
+      // );
+      // },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Image.network(
               'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80',
@@ -147,11 +148,16 @@ class ShopItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(
-              Icons.arrow_forward,
-              color: Colors.black26,
+            Text(
+              '₹2000',
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(
+              width: 15,
+            ),
           ],
         ),
       ),
