@@ -84,7 +84,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                       ),
-                      'completed': Text(
+                      'complete': Text(
                         'Completed',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
