@@ -5,11 +5,12 @@ abstract class ProductEvent {}
 
 class GetAllProductsEvent extends ProductEvent {
   final String? query;
-  final int? categoryId, shopId;
+  final int? categoryId;
+  final String shopId;
 
   GetAllProductsEvent({
     this.query,
     this.categoryId,
-    this.shopId,
+    required this.shopId,
   });
 }

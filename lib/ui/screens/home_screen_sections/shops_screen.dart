@@ -1,8 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prodel_user/blocs/shop/shop_bloc.dart';
 import 'package:prodel_user/ui/screens/products_screen.dart';
+import 'package:prodel_user/ui/widget/custom_alert_dialog.dart';
 import 'package:prodel_user/ui/widget/custom_card.dart';
 import 'package:prodel_user/ui/widget/custom_search.dart';
+import 'package:prodel_user/ui/widget/service_area_selector.dart';
 
 class ShopsScreen extends StatefulWidget {
   const ShopsScreen({
@@ -14,62 +19,134 @@ class ShopsScreen extends StatefulWidget {
 }
 
 class _ShopsScreenState extends State<ShopsScreen> {
+  final ShopBloc shopBloc = ShopBloc();
+
+  String? query;
+  int? selectedServiceArea;
+
+  void getProducts() {
+    shopBloc.add(
+      GetAllShopEvent(
+        query: query,
+        serviceAreaId: selectedServiceArea == 0 ? null : selectedServiceArea,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Explore shops",
-              style: GoogleFonts.jost(
-                textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+      child: BlocProvider<ShopBloc>.value(
+        value: shopBloc,
+        child: BlocConsumer<ShopBloc, ShopState>(
+          listener: (context, state) {
+            if (state is ShopFailureState) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomAlertDialog(
+                  title: 'Failure',
+                  message: state.message,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Explore shops",
+                    style: GoogleFonts.jost(
+                      textStyle:
+                          Theme.of(context).textTheme.titleLarge?.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
                     ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: CustomSearch(
-              onSearch: (search) {},
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: ListView.separated(
-                itemCount: 10,
-                itemBuilder: (context, index) => const ShopItem(),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
-              ),
-            ),
-          ),
-        ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ServiceAreaSelector(
+                          onSelect: (id) {
+                            selectedServiceArea = id;
+                            setState(() {});
+                            getProducts();
+                          },
+                          label: 'Service Area',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: CustomSearch(
+                    onSearch: (search) {
+                      query = search;
+                      getProducts();
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: state is ShopSuccessState
+                        ? state.shops.isNotEmpty
+                            ? ListView.separated(
+                                itemCount: state.shops.length,
+                                itemBuilder: (context, index) => ShopItem(
+                                  shopDetails: state.shops[index],
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
+                              )
+                            : const Center(
+                                child: Text('No shops found'),
+                              )
+                        : const Center(
+                            child: CupertinoActivityIndicator(),
+                          ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
 
 class ShopItem extends StatelessWidget {
+  final dynamic shopDetails;
   const ShopItem({
     super.key,
+    required this.shopDetails,
   });
 
   @override
@@ -87,7 +164,7 @@ class ShopItem extends StatelessWidget {
         child: Row(
           children: [
             Image.network(
-              'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80',
+              shopDetails['image_url'],
               height: 100,
               width: 100,
               fit: BoxFit.cover,
@@ -98,7 +175,7 @@ class ShopItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Shop Name',
+                    shopDetails['name'],
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -106,7 +183,7 @@ class ShopItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Address Line,',
+                    shopDetails['address_line'],
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Colors.black45,
                           fontWeight: FontWeight.w600,
@@ -114,7 +191,11 @@ class ShopItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'Place, City, 678789',
+                    shopDetails['place'] +
+                        ' ' +
+                        shopDetails['city'] +
+                        ' ' +
+                        shopDetails['pin'].toString(),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Colors.black45,
                           fontWeight: FontWeight.w600,
