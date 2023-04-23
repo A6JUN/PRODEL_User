@@ -155,7 +155,7 @@ class ShopItem extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const ProductsScreen(),
+            builder: (context) => ProductsScreen(shopDetails: shopDetails),
           ),
         );
       },

@@ -7,7 +7,8 @@ import '../widget/counter.dart';
 import '../widget/custom_progress_indicator.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  final dynamic productDetails;
+  const ProductDetailsScreen({super.key, required this.productDetails});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -43,14 +44,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FlutterCarousel.builder(
-              itemCount: 3,
+              itemCount: widget.productDetails['images'].length,
               itemBuilder: (context, index, pageViewIndex) =>
                   CachedNetworkImage(
                 height: 300,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                imageUrl:
-                    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80',
+                imageUrl: widget.productDetails['images'][index]['url'],
                 progressIndicatorBuilder: (context, url, progress) =>
                     const Center(
                   child: CustomProgressIndicator(),
@@ -69,7 +69,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Category',
+                    widget.productDetails['category']['name'],
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black38,
@@ -77,7 +77,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'The Looong Produt Title',
+                    widget.productDetails['name'],
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -87,7 +87,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Row(
                     children: [
                       Text(
-                        '₹2500',
+                        '₹${widget.productDetails['price'].toString()}',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.green,
@@ -95,7 +95,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        '₹3000',
+                        '₹${widget.productDetails['discounted_price']}',
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '1 KG',
+                    '${widget.productDetails['quantity']} / ${widget.productDetails['measurement']}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
@@ -115,7 +115,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae ipsum a arcu faucibus lobortis. In hac habitasse platea dictumst. Sed vel gravida enim. Sed sit amet lectus nunc. Sed hendrerit velit augue, vel pulvinar neque pretium in.',
+                    widget.productDetails['description'],
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.normal,
                           color: Colors.black,

@@ -53,74 +53,90 @@ class _CategorySelectorState extends State<CategorySelector> {
           if (state is ProductCategorySuccessState) {
             return Row(
               children: [
-                Material(
-                  borderRadius: BorderRadius.circular(20),
-                  color: selectedId == 0 ? Colors.yellow[50] : Colors.grey[200],
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(20),
-                    onTap: () {
-                      selectedId = 0;
-                      setState(() {});
-                      widget.onSelect(0);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Text(
-                        'All Categories',
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: selectedId == 0
-                                ? Colors.yellow[900]
-                                : Colors.grey[800]),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
                 Expanded(
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: List<Widget>.generate(
-                      state.productCategories.length,
-                      (index) => Material(
-                        borderRadius: BorderRadius.circular(20),
-                        color:
-                            selectedId == state.productCategories[index]['id']
-                                ? Colors.yellow.withOpacity(0.1)
-                                : Colors.grey[200],
-                        child: InkWell(
+                  child: SizedBox(
+                    height: 35,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: [
+                        Material(
                           borderRadius: BorderRadius.circular(20),
-                          onTap: () {
-                            selectedId = state.productCategories[index]['id'];
-                            setState(() {});
-                            widget
-                                .onSelect(state.productCategories[index]['id']);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
-                            child: Text(
-                              state.productCategories[index]['name'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                      color: selectedId ==
-                                              state.productCategories[index]
-                                                  ['id']
-                                          ? Colors.yellow[900]
-                                          : Colors.grey[800]),
+                          color: selectedId == 0
+                              ? Colors.yellow[50]
+                              : Colors.grey[200],
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onTap: () {
+                              selectedId = 0;
+                              setState(() {});
+                              widget.onSelect(0);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
+                              child: Text(
+                                'All Categories',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                        color: selectedId == 0
+                                            ? Colors.yellow[900]
+                                            : Colors.grey[800]),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => Material(
+                            borderRadius: BorderRadius.circular(20),
+                            color: selectedId ==
+                                    state.productCategories[index]['id']
+                                ? Colors.yellow.withOpacity(0.1)
+                                : Colors.grey[200],
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: () {
+                                selectedId =
+                                    state.productCategories[index]['id'];
+                                setState(() {});
+                                widget.onSelect(
+                                    state.productCategories[index]['id']);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 10,
+                                ),
+                                child: Text(
+                                  state.productCategories[index]['name'],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          color: selectedId ==
+                                                  state.productCategories[index]
+                                                      ['id']
+                                              ? Colors.yellow[900]
+                                              : Colors.grey[800]),
+                                ),
+                              ),
+                            ),
+                          ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 10),
+                          itemCount: state.productCategories.length,
+                        ),
+                      ],
                     ),
                   ),
                 ),

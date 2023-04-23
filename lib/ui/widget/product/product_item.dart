@@ -6,9 +6,11 @@ import 'package:prodel_user/utils/truncate_string.dart';
 
 class ProductItem extends StatelessWidget {
   final Function() onTap;
+  final dynamic productDetails;
   const ProductItem({
     Key? key,
     required this.onTap,
+    required this.productDetails,
   }) : super(key: key);
 
   @override
@@ -26,8 +28,7 @@ class ProductItem extends StatelessWidget {
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
-              imageUrl:
-                  'https://pprklkrcyqnhjrukxuhq.supabase.co/storage/v1/object/public/docs/images/1681801472917amg%20petronas%202022.jpg',
+              imageUrl: productDetails['images'][0]['url'],
               progressIndicatorBuilder: (context, url, progress) =>
                   const Center(
                 child: CustomProgressIndicator(),
@@ -36,7 +37,7 @@ class ProductItem extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            'Clothing',
+            productDetails['category']['name'],
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: Colors.black45,
                   fontWeight: FontWeight.w600,
@@ -44,7 +45,7 @@ class ProductItem extends StatelessWidget {
           ),
           const SizedBox(height: 2.5),
           Text(
-            truncateString('Product name', 15),
+            truncateString(productDetails['name'], 15),
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
@@ -57,7 +58,7 @@ class ProductItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '₹1000',
+                '₹${productDetails['price'].toString()}',
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: Colors.red[800],
                       fontWeight: FontWeight.w500,
@@ -68,7 +69,7 @@ class ProductItem extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                '₹600',
+                '₹${productDetails['discounted_price'].toString()}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.green,
                       fontWeight: FontWeight.w600,

@@ -18,6 +18,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                 params: {
                   'search_category_id': event.categoryId,
                   'search_query': event.query,
+                  'search_shop_id': event.shopId,
                 },
               )) ??
               [];
