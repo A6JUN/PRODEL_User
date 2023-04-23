@@ -87,7 +87,7 @@ class CustomAlertDialog extends StatelessWidget {
                       secondaryButtonLabel != null
                           ? Expanded(
                               child: CustomActionButton(
-                                color: Colors.grey,
+                                color: Colors.blue,
                                 label: secondaryButtonLabel ?? '',
                                 onPressed: secondaryOnPressed ??
                                     () {

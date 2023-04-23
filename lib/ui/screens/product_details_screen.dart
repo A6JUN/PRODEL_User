@@ -144,37 +144,50 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 vertical: 10,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Counter(
-                    limit: widget.productDetails['stock'],
-                    onChange: (c) {
-                      count = c;
-                    },
-                  ),
-                  CustomButton(
-                    onTap: () async {
-                      manageCartBloc.add(
-                        AddManageCartEvent(
-                          productId: widget.productDetails['id'],
-                          quantity: count,
-                          shopId: widget.productDetails['shop']['user_id'],
+                mainAxisAlignment: widget.productDetails['stock'] > 0
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: widget.productDetails['stock'] > 0
+                    ? [
+                        Counter(
+                          limit: widget.productDetails['stock'],
+                          onChange: (c) {
+                            count = c;
+                          },
                         ),
-                      );
-                      await showDialog(
-                        context: context,
-                        builder: (context) => const CustomAlertDialog(
-                          title: 'Added to Cart',
-                          message:
-                              'Item added to cart, open cart and checkout,',
-                          primaryButtonLabel: 'Ok',
+                        CustomButton(
+                          onTap: () async {
+                            manageCartBloc.add(
+                              AddManageCartEvent(
+                                productId: widget.productDetails['id'],
+                                quantity: count,
+                                shopId: widget.productDetails['shop']
+                                    ['user_id'],
+                              ),
+                            );
+                            await showDialog(
+                              context: context,
+                              builder: (context) => const CustomAlertDialog(
+                                title: 'Added to Cart',
+                                message:
+                                    'Item added to cart, open cart and checkout,',
+                                primaryButtonLabel: 'Ok',
+                              ),
+                            );
+                            Navigator.pop(context);
+                          },
+                          label: 'Add to Cart',
                         ),
-                      );
-                      Navigator.pop(context);
-                    },
-                    label: 'Add to Cart',
-                  ),
-                ],
+                      ]
+                    : [
+                        Text(
+                          'Out of stock',
+                          style:
+                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    color: Colors.red,
+                                  ),
+                        ),
+                      ],
               ),
             ),
           ),
