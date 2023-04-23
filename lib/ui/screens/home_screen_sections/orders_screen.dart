@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prodel_user/blocs/manage_order/manage_order_bloc.dart';
 import 'package:prodel_user/ui/screens/product_details_screen.dart';
 import 'package:prodel_user/ui/widget/custom_button.dart';
 import 'package:prodel_user/ui/widget/custom_card.dart';
 import 'package:prodel_user/ui/widget/label_with_text.dart';
 import 'package:prodel_user/ui/widget/product/product_item.dart';
+
+import '../../widget/custom_alert_dialog.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
@@ -14,70 +18,112 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+  final ManageOrderBloc manageOrderBloc = ManageOrderBloc();
   String groupValue = 'pending';
+
+  void getOrders() {
+    manageOrderBloc.add(GetAllOrderEvent(status: groupValue));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getOrders();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            CupertinoSlidingSegmentedControl<String>(
-              backgroundColor: Colors.white60,
-              thumbColor: Colors.yellow[200]!,
-              groupValue: groupValue,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
-              ),
-              children: {
-                'pending': Text(
-                  'Pending',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+      child: BlocProvider<ManageOrderBloc>.value(
+        value: manageOrderBloc,
+        child: BlocConsumer<ManageOrderBloc, ManageOrderState>(
+          listener: (context, state) {
+            if (state is ManageOrderFailureState) {
+              showDialog(
+                context: context,
+                builder: (context) => const CustomAlertDialog(
+                  title: 'Failure',
+                  message:
+                      'Something went wrong, please check your connection and try again.',
+                  primaryButtonLabel: 'Ok',
                 ),
-                'packed': Text(
-                  'Packed',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-                'completed': Text(
-                  'Completed',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              },
-              onValueChanged: (value) {
-                groupValue = value!;
-                setState(() {});
-              },
-            ),
-            const Divider(
-              color: Colors.black54,
-              height: 20,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Wrap(
-                  runSpacing: 20,
-                  children: List<Widget>.generate(
-                    5,
-                    (index) => const OrderItem(),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
+                  CupertinoSlidingSegmentedControl<String>(
+                    backgroundColor: Colors.white60,
+                    thumbColor: Colors.yellow[200]!,
+                    groupValue: groupValue,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    children: {
+                      'pending': Text(
+                        'Pending',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                      'packed': Text(
+                        'Packed',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                      'completed': Text(
+                        'Completed',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                    },
+                    onValueChanged: (value) {
+                      groupValue = value!;
+                      setState(() {});
+                      getOrders();
+                    },
+                  ),
+                  const Divider(
+                    color: Colors.black54,
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: state is ManageOrderSuccessState
+                        ? state.orders.isNotEmpty
+                            ? ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                itemBuilder: (context, index) => OrderItem(
+                                  orderDetails: state.orders[index],
+                                  manageOrderBloc: manageOrderBloc,
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
+                                itemCount: state.orders.length,
+                              )
+                            : const Center(child: Text('No Orders'))
+                        : const Center(child: CupertinoActivityIndicator()),
+                  ),
+                ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -85,8 +131,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
 }
 
 class OrderItem extends StatelessWidget {
+  final dynamic orderDetails;
+  final ManageOrderBloc manageOrderBloc;
   const OrderItem({
     super.key,
+    required this.orderDetails,
+    required this.manageOrderBloc,
   });
 
   @override
@@ -101,14 +151,14 @@ class OrderItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '#12',
+                  '#${orderDetails['id'].toString()}',
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                 ),
                 Text(
-                  'Pending',
+                  orderDetails['status'],
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -120,17 +170,17 @@ class OrderItem extends StatelessWidget {
               height: 20,
               color: Colors.black54,
             ),
-            const LabelWithText(
+            LabelWithText(
               label: 'Shop',
-              text: 'Shop Name',
+              text: orderDetails['shop']['name'],
             ),
             const Divider(
               height: 20,
               color: Colors.black54,
             ),
-            const LabelWithText(
+            LabelWithText(
               label: 'Type',
-              text: 'Delivery',
+              text: orderDetails['order_type'],
             ),
             const Divider(
               height: 20,
@@ -139,52 +189,55 @@ class OrderItem extends StatelessWidget {
             Wrap(
               runSpacing: 5,
               children: List<Widget>.generate(
-                2,
-                (index) => const ProductListItem(),
+                orderDetails['items'].length,
+                (index) => ProductListItem(
+                  itemDetails: orderDetails['items'][index],
+                ),
               ),
             ),
-            const Divider(
-              height: 20,
-              color: Colors.black54,
-            ),
-            const LabelWithText(
-              label: 'Address',
-              text:
-                  'Address line 1, address line 2, place, city, district,state, pin 670301',
-            ),
+            if (orderDetails['order_type'] == 'delivery')
+              const Divider(
+                height: 20,
+                color: Colors.black54,
+              ),
+            if (orderDetails['order_type'] == 'delivery')
+              LabelWithText(
+                label: 'Address',
+                text:
+                    '${orderDetails['address']}, ${orderDetails['pin'].toString()}',
+              ),
             const Divider(
               height: 20,
               color: Colors.black54,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
-                  child: LabelWithText(
-                    label: 'Total',
-                    text: '₹4000',
-                  ),
+                LabelWithText(
+                  label: 'Total',
+                  text: '₹${orderDetails['total'].toString()}',
                 ),
-                Expanded(
-                  child: Text(
-                    'Pending',
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                    textAlign: TextAlign.end,
-                  ),
-                )
               ],
             ),
-            const Divider(
-              height: 20,
-              color: Colors.black54,
-            ),
-            CustomButton(
-              onTap: () {},
-              label: 'Pay Now',
-            ),
+            if (orderDetails['order_type'] == 'pickup' &&
+                orderDetails['status'] == 'packed')
+              const Divider(
+                height: 20,
+                color: Colors.black54,
+              ),
+            if (orderDetails['order_type'] == 'pickup' &&
+                orderDetails['status'] == 'packed')
+              CustomButton(
+                onTap: () {
+                  manageOrderBloc.add(
+                    HandleOrderEvent(
+                      orderId: orderDetails['id'],
+                      status: 'complete',
+                    ),
+                  );
+                },
+                label: 'Picked Up',
+              ),
           ],
         ),
       ),
@@ -193,8 +246,10 @@ class OrderItem extends StatelessWidget {
 }
 
 class ProductListItem extends StatelessWidget {
+  final dynamic itemDetails;
   const ProductListItem({
     super.key,
+    required this.itemDetails,
   });
 
   @override
@@ -205,9 +260,10 @@ class ProductListItem extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Image.network(
-            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80',
+            itemDetails['product']['images'][0]['url'],
             width: 60,
             height: 60,
+            fit: BoxFit.cover,
           ),
         ),
         const SizedBox(
@@ -217,7 +273,7 @@ class ProductListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Product Name',
+              itemDetails['product']['name'],
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -227,7 +283,7 @@ class ProductListItem extends StatelessWidget {
               height: 2,
             ),
             Text(
-              '5',
+              itemDetails['quantity'].toString(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -240,7 +296,7 @@ class ProductListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '₹2000',
+                '₹${itemDetails['price'].toString()}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,

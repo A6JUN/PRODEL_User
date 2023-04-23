@@ -41,10 +41,12 @@ class ManageOrderBloc extends Bloc<ManageOrderEvent, ManageOrderState> {
                 .single();
 
             for (int j = 0; j < orders[i]['items'].length; j++) {
-              orders[i]['items'][j]['product'] = await productsTable
-                  .select('*')
-                  .eq('id', orders[i]['items'][j]['product_id'])
-                  .single();
+              orders[i]['items'][j]['product'] = (await supabaseClient.rpc(
+                'get_products',
+                params: {
+                  'search_product_id': orders[i]['items'][j]['product_id'],
+                },
+              ))[0];
             }
           }
 
