@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:prodel_user/blocs/manage_cart/manage_cart_bloc.dart';
+import 'package:prodel_user/ui/widget/custom_alert_dialog.dart';
 import 'package:prodel_user/ui/widget/custom_button.dart';
 
 import '../widget/counter.dart';
@@ -15,6 +17,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int count = 1;
+  final ManageCartBloc manageCartBloc = ManageCartBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,10 +147,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Counter(
-                    onChange: (count) {},
+                    limit: widget.productDetails['stock'],
+                    onChange: (c) {
+                      count = c;
+                    },
                   ),
                   CustomButton(
-                    onTap: () {},
+                    onTap: () async {
+                      manageCartBloc.add(
+                        AddManageCartEvent(
+                          productId: widget.productDetails['id'],
+                          quantity: count,
+                          shopId: widget.productDetails['shop']['user_id'],
+                        ),
+                      );
+                      await showDialog(
+                        context: context,
+                        builder: (context) => const CustomAlertDialog(
+                          title: 'Added to Cart',
+                          message:
+                              'Item added to cart, open cart and checkout,',
+                          primaryButtonLabel: 'Ok',
+                        ),
+                      );
+                      Navigator.pop(context);
+                    },
                     label: 'Add to Cart',
                   ),
                 ],

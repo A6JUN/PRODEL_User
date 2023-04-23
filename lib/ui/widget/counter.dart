@@ -5,10 +5,12 @@ import '../../values/colors.dart';
 class Counter extends StatefulWidget {
   final Function(int) onChange;
   final double size;
+  final int limit;
   const Counter({
     super.key,
     required this.onChange,
     this.size = 30,
+    required this.limit,
   });
 
   @override
@@ -27,6 +29,7 @@ class _CounterState extends State<Counter> {
             if (count > 1) {
               count--;
             }
+            widget.onChange(count);
             setState(() {});
           },
           child: Padding(
@@ -50,7 +53,11 @@ class _CounterState extends State<Counter> {
         ),
         InkWell(
           onTap: () {
-            count++;
+            if (widget.limit > count) {
+              count++;
+            }
+            widget.onChange(count);
+
             setState(() {});
           },
           child: Padding(

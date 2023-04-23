@@ -1,105 +1,164 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prodel_user/blocs/manage_cart/manage_cart_bloc.dart';
 import 'package:prodel_user/ui/widget/counter.dart';
 
+import '../../widget/custom_alert_dialog.dart';
 import '../../widget/custom_button.dart';
 import '../../widget/custom_card.dart';
+import '../product_details_screen.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
   @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  final ManageCartBloc manageCartBloc = ManageCartBloc();
+  @override
+  void initState() {
+    super.initState();
+    manageCartBloc.add(GetAllManageCartEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.only(
-              left: 15,
-              right: 15,
-              bottom: 50,
-              top: 20,
-            ),
-            shrinkWrap: true,
-            itemCount: 5,
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-            itemBuilder: (BuildContext context, int index) {
-              return const ShopItem();
-            },
-          ),
-        ),
-        Material(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(1),
-            side: const BorderSide(color: Colors.black38, width: 0.5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocProvider<ManageCartBloc>.value(
+      value: manageCartBloc,
+      child: BlocConsumer<ManageCartBloc, ManageCartState>(
+        listener: (context, state) {
+          if (state is ManageCartFailureState) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomAlertDialog(
+                title: 'Failure',
+                message: state.message,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: state is ManageCartSuccessState
+                    ? state.cartItems.isNotEmpty
+                        ? ListView.separated(
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
+                              bottom: 50,
+                              top: 20,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: state.cartItems.length,
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ShopItem(
+                                manageCartBloc: manageCartBloc,
+                                cartItemDetails: state.cartItems[index],
+                              );
+                            },
+                          )
+                        : const Center(child: Text('No Items'))
+                    : const Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+              ),
+              Material(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(1),
+                  side: const BorderSide(color: Colors.black38, width: 0.5),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
                     children: [
-                      Text(
-                        "Total Price",
-                        style: GoogleFonts.notoSans(
-                          textStyle:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Total Price",
+                              style: GoogleFonts.notoSans(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              state is ManageCartSuccessState
+                                  ? "₹${state.total.toString()}"
+                                  : "",
+                              style: GoogleFonts.notoSans(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        "₹440",
-                        style: GoogleFonts.notoSans(
-                          textStyle:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                      Expanded(
+                        child: CustomButton(
+                          label: 'Place Order',
+                          onTap: () {},
                         ),
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: CustomButton(
-                    label: 'Place Order',
-                    onTap: () {},
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
 
 class ShopItem extends StatelessWidget {
+  final dynamic cartItemDetails;
+  final ManageCartBloc manageCartBloc;
   const ShopItem({
     super.key,
+    required this.cartItemDetails,
+    required this.manageCartBloc,
   });
 
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      // onPressed: () {
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => const ProductDetailsScreen(),
-      //   ),
-      // );
-      // },
+      onPressed: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetailsScreen(
+              productDetails: cartItemDetails['product'],
+            ),
+          ),
+        );
+        manageCartBloc.add(GetAllManageCartEvent());
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Row(
@@ -107,7 +166,7 @@ class ShopItem extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Image.network(
-              'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80',
+              cartItemDetails['product']['images'][0]['url'],
               height: 100,
               width: 100,
               fit: BoxFit.cover,
@@ -118,7 +177,7 @@ class ShopItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Category',
+                    cartItemDetails['product']['category']['name'],
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Colors.black45,
                           fontWeight: FontWeight.w600,
@@ -126,7 +185,7 @@ class ShopItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 2.5),
                   Text(
-                    'Product Name',
+                    cartItemDetails['product']['name'],
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -134,22 +193,25 @@ class ShopItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 2.5),
                   Text(
-                    'Shop Name',
+                    cartItemDetails['product']['shop']['name'],
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Colors.black45,
                           fontWeight: FontWeight.w600,
                         ),
                   ),
                   const SizedBox(height: 2.5),
-                  Counter(
-                    size: 24,
-                    onChange: (count) {},
+                  Text(
+                    '${cartItemDetails['quantity']} Qty',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                 ],
               ),
             ),
             Text(
-              '₹2000',
+              '₹${cartItemDetails['product']['discounted_price']}',
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
