@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prodel_user/ui/widget/custom_alert_dialog.dart';
 
+import '../../../blocs/suggestion/suggestion_bloc.dart';
+
 class AddSuggestionDialog extends StatefulWidget {
+  final SuggestionBloc suggestionsBloc;
   const AddSuggestionDialog({
     super.key,
+    required this.suggestionsBloc,
   });
 
   @override
@@ -11,16 +15,16 @@ class AddSuggestionDialog extends StatefulWidget {
 }
 
 class _AddSuggestionDialogState extends State<AddSuggestionDialog> {
-  bool _isLoading = false;
+  bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _suggestionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return CustomAlertDialog(
-      isLoading: _isLoading,
+      isLoading: isLoading,
       title: 'Suggestion',
-      message: 'Send your suggestions to PRODEL',
+      message: 'Send your suggestion to PRODEL',
       content: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
@@ -53,16 +57,8 @@ class _AddSuggestionDialogState extends State<AddSuggestionDialog> {
       primaryOnPressed: () async {
         try {
           if (_formKey.currentState!.validate()) {
-            _isLoading = true;
-            setState(() {});
-            // await Supabase.instance.client.auth.updateUser(
-            //   UserAttributes(
-            //     password: _complaintController.text.trim(),
-            //   ),
-            // );
-            _isLoading = false;
-            setState(() {});
-            // ignore: use_build_context_synchronously
+            widget.suggestionsBloc.add(AddSuggestionEvent(
+                suggestion: _suggestionController.text.trim()));
             Navigator.pop(context);
           }
         } catch (e) {

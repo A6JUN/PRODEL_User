@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prodel_user/ui/widget/custom_alert_dialog.dart';
 
+import '../../../blocs/complaints/complaints_bloc.dart';
+
 class AddComplaintDialog extends StatefulWidget {
+  final ComplaintsBloc complaintsBloc;
   const AddComplaintDialog({
     super.key,
+    required this.complaintsBloc,
   });
 
   @override
@@ -53,6 +57,8 @@ class _AddComplaintDialogState extends State<AddComplaintDialog> {
       primaryOnPressed: () async {
         try {
           if (_formKey.currentState!.validate()) {
+            widget.complaintsBloc.add(AddComplaintsEvent(
+                complaint: _complaintController.text.trim()));
             Navigator.pop(context);
           }
         } catch (e) {
